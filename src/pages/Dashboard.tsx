@@ -3,6 +3,7 @@ import { getTransactions, Transaction } from "@/lib/store";
 import BalanceCard from "@/components/BalanceCard";
 import RecentTransactions from "@/components/RecentTransactions";
 import SpendingChart from "@/components/SpendingChart";
+import SpendingTrends from "@/components/SpendingTrends";
 
 const Dashboard = () => {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
@@ -25,6 +26,7 @@ const Dashboard = () => {
       <div className="space-y-5">
         <BalanceCard transactions={transactions} />
         <SpendingChart transactions={transactions} />
+        <SpendingTrends transactions={transactions} />
         <RecentTransactions transactions={transactions} />
       </div>
     </div>
