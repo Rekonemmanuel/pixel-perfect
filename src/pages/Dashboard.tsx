@@ -8,7 +8,6 @@ import SpendingChart from "@/components/SpendingChart";
 import SpendingTrends from "@/components/SpendingTrends";
 import { User, ShieldCheck } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import logo from "@/assets/chapaacheck-logo.svg";
 
 const Dashboard = () => {
   const { user } = useAuth();
@@ -27,12 +26,9 @@ const Dashboard = () => {
   return (
     <div className="mx-auto max-w-md px-4 pb-24 pt-6">
       <div className="mb-5 flex items-center justify-between animate-fade-in">
-        <div className="flex items-center gap-2">
-          <img src={logo} alt="ChapaaCheck" className="h-12 w-12 rounded-xl" />
-          <div>
-            <p className="text-sm text-muted-foreground">{greeting} 👋</p>
-            <h1 className="text-xl font-bold">ChapaaCheck</h1>
-          </div>
+        <div>
+          <p className="text-sm text-muted-foreground">{greeting} 👋</p>
+          <h1 className="text-xl font-bold">ChapaaCheck</h1>
         </div>
         <div className="flex items-center gap-2">
           {isAdmin && (
