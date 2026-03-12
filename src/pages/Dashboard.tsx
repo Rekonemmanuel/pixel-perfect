@@ -8,6 +8,7 @@ import SpendingChart from "@/components/SpendingChart";
 import SpendingTrends from "@/components/SpendingTrends";
 import { User, ShieldCheck } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import logo from "@/assets/chapaacheck-logo.png";
 
 const Dashboard = () => {
   const { user } = useAuth();
