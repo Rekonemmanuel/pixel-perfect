@@ -84,6 +84,7 @@ const Dashboard = () => {
           ) : (
             <>
               <BalanceCard transactions={transactions} />
+              <SpendingInsights transactions={transactions} budgets={budgets} />
               <motion.div
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
