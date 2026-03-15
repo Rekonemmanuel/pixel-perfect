@@ -20,13 +20,30 @@ const Dashboard = () => {
   const { isAdmin } = useAdmin();
   const navigate = useNavigate();
   const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [savingsGoal, setSavingsGoal] = useState(10000);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getTransactions()
-      .then(setTransactions)
+    Promise.all([
+      getTransactions(),
+      user ? getSavingsGoal(user.id) : Promise.resolve(10000),
+    ])
+      .then(([txns, goal]) => {
+        setTransactions(txns);
+        setSavingsGoal(goal);
+      })
       .finally(() => setLoading(false));
-  }, []);
+  }, [user]);
+
+  const streak = calculateStreak(transactions);
+  const totalIncome = transactions.filter(t => t.type === "income").reduce((s, t) => s + t.amount, 0);
+  const totalExpenses = transactions.filter(t => t.type === "expense").reduce((s, t) => s + t.amount, 0);
+  const achievementCtx: AchievementContext = {
+    transactions,
+    streak,
+    totalSaved: totalIncome - totalExpenses,
+    savingsGoal,
+  };
 
   const now = new Date();
   const hour = now.getHours();
