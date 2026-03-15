@@ -58,9 +58,12 @@ const Dashboard = () => {
           transition={{ duration: 0.3 }}
           className="mb-5 flex items-center justify-between"
         >
-          <div>
-            <p className="text-sm text-muted-foreground">{greeting} 👋</p>
-            <h1 className="text-xl font-bold">ChapaaCheck</h1>
+          <div className="flex items-center gap-3">
+            <div>
+              <p className="text-sm text-muted-foreground">{greeting} 👋</p>
+              <h1 className="text-xl font-bold">ChapaaCheck</h1>
+            </div>
+            {!loading && <StreakBadge streak={streak} />}
           </div>
           <div className="flex items-center gap-2">
             {isAdmin && (
