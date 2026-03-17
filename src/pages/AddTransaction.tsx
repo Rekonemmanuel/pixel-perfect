@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { format } from "date-fns";
 import { addTransaction, EXPENSE_CATEGORIES, INCOME_CATEGORIES, getCategoryEmoji } from "@/lib/store";
-import { fireConfetti } from "@/lib/confetti";
+
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -39,7 +39,6 @@ const AddTransaction = () => {
         date: format(date, "yyyy-MM-dd"),
       }, user.id);
       toast.success(`${type === "income" ? "Income" : "Expense"} added! 🎉`);
-      fireConfetti();
       navigate("/");
     } catch (err: any) {
       toast.error(err.message);
