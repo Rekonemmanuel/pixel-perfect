@@ -10,6 +10,7 @@ import Dashboard from "./pages/Dashboard";
 import AddTransaction from "./pages/AddTransaction";
 import Transactions from "./pages/Transactions";
 import BudgetPage from "./pages/BudgetPage";
+import RecurringTransactions from "./pages/RecurringTransactions";
 import Auth from "./pages/Auth";
 import ResetPassword from "./pages/ResetPassword";
 import Profile from "./pages/Profile";
@@ -48,6 +49,7 @@ const AppRoutes = () => {
           <Route path="/add" element={<ProtectedRoute><AddTransaction /></ProtectedRoute>} />
           <Route path="/transactions" element={<ProtectedRoute><Transactions /></ProtectedRoute>} />
           <Route path="/budget" element={<ProtectedRoute><BudgetPage /></ProtectedRoute>} />
+          <Route path="/recurring" element={<ProtectedRoute><RecurringTransactions /></ProtectedRoute>} />
           <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
           <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/admin" element={<ProtectedRoute><AdminLayout /></ProtectedRoute>}>
