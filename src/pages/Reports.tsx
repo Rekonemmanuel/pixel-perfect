@@ -350,9 +350,9 @@ const Reports = () => {
             <FileText className="h-5 w-5 text-primary" />
             <h1 className="text-xl font-bold">Reports</h1>
           </div>
-          <Button variant="outline" size="sm" onClick={handleDownloadPDF} className="gap-1.5 text-xs">
+          <Button variant="outline" size="sm" onClick={handleDownloadPDF} disabled={downloading} className="gap-1.5 text-xs">
             <Download className="h-3.5 w-3.5" />
-            Download PDF
+            {downloading ? "Generating..." : "Download PDF"}
           </Button>
         </motion.div>
 
