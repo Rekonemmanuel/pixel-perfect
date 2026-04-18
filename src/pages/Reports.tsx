@@ -22,9 +22,7 @@ const Letterhead = () => (
   <div className="mb-6 rounded-2xl bg-card p-5 shadow-sm">
     <div className="flex items-center justify-between border-b border-border pb-4">
       <div className="flex items-center gap-3">
-        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary text-primary-foreground font-bold text-lg">
-          C
-        </div>
+        <img src="/pwa-192x192.png" alt="ChapaaCheck logo" className="h-10 w-10 rounded-xl object-cover" />
         <div>
           <h2 className="text-lg font-bold tracking-tight">ChapaaCheck</h2>
           <p className="text-[10px] text-muted-foreground tracking-wider uppercase">Financial Report</p>
@@ -378,9 +376,7 @@ const Reports = () => {
         <div ref={page2Ref} className="space-y-4 rounded-2xl border border-border/50 bg-background p-4">
           <div className="flex items-center justify-between border-b border-border pb-3">
             <div className="flex items-center gap-2">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground font-bold text-sm">
-                C
-              </div>
+              <img src="/pwa-192x192.png" alt="ChapaaCheck logo" className="h-8 w-8 rounded-lg object-cover" />
               <p className="text-xs font-semibold">ChapaaCheck — Detailed Insights</p>
             </div>
             <p className="text-[10px] text-muted-foreground">Page 2 of 2</p>

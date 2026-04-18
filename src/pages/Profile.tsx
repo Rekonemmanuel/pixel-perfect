@@ -4,13 +4,15 @@ import { supabase } from "@/integrations/supabase/client";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-import { ArrowLeft, User } from "lucide-react";
+import { ArrowLeft, User, Shield } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import ThemeToggle from "@/components/ThemeToggle";
+import { useAdmin } from "@/hooks/use-admin";
 
 const Profile = () => {
   const { user, signOut } = useAuth();
   const navigate = useNavigate();
+  const { isAdmin } = useAdmin();
   const [displayName, setDisplayName] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -83,6 +85,13 @@ const Profile = () => {
             <ThemeToggle />
           </div>
         </div>
+
+        {isAdmin && (
+          <Button variant="outline" onClick={() => navigate("/admin")} className="w-full gap-2">
+            <Shield className="h-4 w-4" />
+            Admin Dashboard
+          </Button>
+        )}
 
         <Button variant="outline" onClick={signOut} className="w-full text-destructive hover:text-destructive">
           Sign Out
