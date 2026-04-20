@@ -46,7 +46,12 @@ const Auth = () => {
   return (
     <div className="flex min-h-screen items-center justify-center px-4">
       <div className="w-full max-w-sm animate-fade-in">
-        <div className="mb-8 text-center">
+        <div className="mb-8 flex flex-col items-center text-center">
+          <img
+            src="/favicon.ico"
+            alt="ChapaaCheck logo"
+            className="mb-3 h-14 w-14 rounded-2xl object-contain shadow-sm"
+          />
           <h1 className="text-3xl font-bold">ChapaaCheck</h1>
           <p className="mt-1 text-sm text-muted-foreground">
             {isLogin ? "Welcome back! 👋" : "Create your account 🎉"}
