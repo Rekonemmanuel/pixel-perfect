@@ -25,7 +25,7 @@ const Letterhead = () => (
         <img src="/favicon.ico" alt="ChapaaCheck logo" className="h-10 w-10 rounded-xl object-contain" />
         <div>
           <h2 className="text-lg font-bold tracking-tight">ChapaaCheck</h2>
-          <p className="text-[10px] text-muted-foreground tracking-wider uppercase">Financial Report</p>
+          <p className="text-[10px] text-muted-foreground tracking-wider uppercase">Smart Student Finance Tracker</p>
         </div>
       </div>
       <div className="text-right">
