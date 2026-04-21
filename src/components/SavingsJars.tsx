@@ -45,6 +45,7 @@ const SavingsJars = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [contributeJar, setContributeJar] = useState<SavingsJar | null>(null);
   const [contributeAmount, setContributeAmount] = useState("");
+  const [available, setAvailable] = useState<number | null>(null);
   const [deleteTarget, setDeleteTarget] = useState<SavingsJar | null>(null);
 
   // New jar form
@@ -262,7 +263,13 @@ const SavingsJars = () => {
       )}
 
       {/* Contribute dialog */}
-      <Dialog open={!!contributeJar} onOpenChange={(o) => !o && setContributeJar(null)}>
+      <Dialog
+        open={!!contributeJar}
+        onOpenChange={(o) => {
+          if (!o) { setContributeJar(null); setAvailable(null); }
+          else if (user) getAvailableToSave(user.id).then(setAvailable);
+        }}
+      >
         <DialogContent className="max-w-[90vw] sm:max-w-sm rounded-2xl">
           <DialogHeader>
             <DialogTitle>
@@ -270,6 +277,11 @@ const SavingsJars = () => {
             </DialogTitle>
           </DialogHeader>
           <div className="space-y-4">
+            {available !== null && (
+              <p className="text-center text-xs text-muted-foreground">
+                Available to save: <span className="font-semibold text-foreground">KSh {available.toLocaleString()}</span>
+              </p>
+            )}
             <Input
               type="number"
               placeholder="Amount (KSh)"
@@ -286,6 +298,9 @@ const SavingsJars = () => {
                 <Plus className="h-4 w-4" /> Deposit
               </Button>
             </div>
+            <p className="text-center text-[11px] text-muted-foreground">
+              Deposits log a "Savings" expense; withdrawals log "Savings" income.
+            </p>
           </div>
         </DialogContent>
       </Dialog>
