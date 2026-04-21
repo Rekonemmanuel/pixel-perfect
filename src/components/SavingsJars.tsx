@@ -4,6 +4,8 @@ import {
   addSavingsJar,
   updateSavingsJar,
   deleteSavingsJar,
+  getAvailableToSave,
+  addTransaction,
   SavingsJar,
   JAR_COLORS,
 } from "@/lib/store";
@@ -43,6 +45,7 @@ const SavingsJars = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [contributeJar, setContributeJar] = useState<SavingsJar | null>(null);
   const [contributeAmount, setContributeAmount] = useState("");
+  const [available, setAvailable] = useState<number | null>(null);
   const [deleteTarget, setDeleteTarget] = useState<SavingsJar | null>(null);
 
   // New jar form
@@ -79,16 +82,43 @@ const SavingsJars = () => {
   };
 
   const handleContribute = async (delta: number) => {
-    if (!contributeJar) return;
+    if (!contributeJar || !user) return;
     const amt = Number(contributeAmount);
     if (!amt || amt <= 0) { toast.error("Enter a valid amount"); return; }
+
+    if (delta > 0) {
+      // Deposit: must have available (unallocated) income to cover it
+      const available = await getAvailableToSave(user.id);
+      if (amt > available) {
+        toast.error(`Not enough income. You only have KSh ${available.toLocaleString()} available to save.`);
+        return;
+      }
+    } else {
+      // Withdraw: can't take more than is in the jar
+      if (amt > contributeJar.saved_amount) {
+        toast.error("You can't withdraw more than the jar holds");
+        return;
+      }
+    }
+
     const newSaved = Math.max(0, contributeJar.saved_amount + delta * amt);
     try {
       await updateSavingsJar(contributeJar.id, { saved_amount: newSaved });
+      // Mirror the move in the transactions ledger so balance stays accurate
+      await addTransaction(
+        {
+          type: delta > 0 ? "expense" : "income",
+          amount: amt,
+          category: "Savings",
+          description: `${delta > 0 ? "Deposit to" : "Withdraw from"} ${contributeJar.emoji} ${contributeJar.name}`,
+          date: new Date().toISOString().slice(0, 10),
+        },
+        user.id
+      );
       setJars((prev) => prev.map((j) => (j.id === contributeJar.id ? { ...j, saved_amount: newSaved } : j)));
       setContributeJar(null);
       setContributeAmount("");
-      toast.success(delta > 0 ? "Added to jar 💰" : "Withdrawn from jar");
+      toast.success(delta > 0 ? "Saved to jar 💰" : "Withdrawn from jar");
     } catch (err: any) {
       toast.error(err.message);
     }
@@ -233,7 +263,13 @@ const SavingsJars = () => {
       )}
 
       {/* Contribute dialog */}
-      <Dialog open={!!contributeJar} onOpenChange={(o) => !o && setContributeJar(null)}>
+      <Dialog
+        open={!!contributeJar}
+        onOpenChange={(o) => {
+          if (!o) { setContributeJar(null); setAvailable(null); }
+          else if (user) getAvailableToSave(user.id).then(setAvailable);
+        }}
+      >
         <DialogContent className="max-w-[90vw] sm:max-w-sm rounded-2xl">
           <DialogHeader>
             <DialogTitle>
@@ -241,6 +277,11 @@ const SavingsJars = () => {
             </DialogTitle>
           </DialogHeader>
           <div className="space-y-4">
+            {available !== null && (
+              <p className="text-center text-xs text-muted-foreground">
+                Available to save: <span className="font-semibold text-foreground">KSh {available.toLocaleString()}</span>
+              </p>
+            )}
             <Input
               type="number"
               placeholder="Amount (KSh)"
@@ -257,6 +298,9 @@ const SavingsJars = () => {
                 <Plus className="h-4 w-4" /> Deposit
               </Button>
             </div>
+            <p className="text-center text-[11px] text-muted-foreground">
+              Deposits log a "Savings" expense; withdrawals log "Savings" income.
+            </p>
           </div>
         </DialogContent>
       </Dialog>
